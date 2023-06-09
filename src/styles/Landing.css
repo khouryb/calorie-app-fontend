@@ -1,0 +1,39 @@
+.fade-in {
+    opacity: 0;
+    transition: opacity 1.5s ease-in;
+  }
+  
+  .fade-in.active {
+    opacity: 1;
+  }
+
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .slide-in-left {
+    animation: slideInFromLeft 1s ease forwards;
+  }
+  
+  .slide-in-right {
+    animation: slideInFromRight 1s ease forwards;
+  }
