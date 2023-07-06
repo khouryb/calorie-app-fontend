@@ -6,7 +6,7 @@ Project 4. Everything has been leading to this. In our final project, I have bee
 
 ## Deployment
 
-https://github.io/calorie-app-fontend
+https://github.khouryb.io/calorie-app-fontend
 
 ## Timeframe
 
