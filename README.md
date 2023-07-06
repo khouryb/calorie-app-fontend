@@ -186,5 +186,4 @@ None that I am aware of, but I am sure that they are there.
 
 ## Future Improvements
 
-ß
 I would like to use a third party API to grab the nutritional data for more common foodstuffs. Implementing this would save the user time in inputting their own data. I would also like to make the app more secure; I believe storing JWTs in cookies instead of local storage is much more secure.
