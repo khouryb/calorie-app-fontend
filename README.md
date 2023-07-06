@@ -4,6 +4,10 @@
 
 Project 4. Everything has been leading to this. In our final project, I have been given free reign to choose any technology stack I have learnt over the past 10 weeks and also to come up with an idea completely by myself. As I have gained 3 kilos over the course, I thought it would be fitting to create a calorie counter app so I could lose it all again hopefully.
 
+## Deployment
+
+https://github.io/calorie-app-fontend
+
 ## Timeframe
 
 I was given 10 days to complete this project as a solo endeavor.
