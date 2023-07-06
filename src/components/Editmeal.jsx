@@ -29,7 +29,7 @@ export default function Editmeal() {
         const handleUpdatedDone = async (id) => {
              
                 try {
-                    const response = await axios.put(`http://localhost:4000/meals/7`, {name: 'something else'})
+                    const response = await axios.put(`http://localhost:4000/meals/`, {name: 'something else'})
                     console.log('Updated', response)
                     } catch (error) {
                         console.log(error)
