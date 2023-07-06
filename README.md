@@ -22,6 +22,8 @@ I felt that I needed to practice coding using React, seeing as it is such a popu
 
 From my time in the course I learnt that new programmers tend to bite off more than they can chew in respect to the complexity of the apps they make. It is preferable to keep the app simple, making sure all features work as intended and not being overwhelmed by many features that one has to implement given a strict time frame to completion, resulting in an unfinished, rushed app. With this in mind, I decided that I would have as few models as possible and went with three as shown in the ERD here:
 
+![E.R.D](https://i.ibb.co/kKJ563Z/calorie-tracker-erd.png)
+
 Then I went about writing some user stories for my app:
 
 As a user, I want to be able to create an account
@@ -36,6 +38,8 @@ As a user, I want to view my meals
 
 And some wire frames:
 
+![E.R.D](https://i.ibb.co/6J2fh17/calorie-tracker-wireframe.png)
+
 ## Build Process
 
 ### REST API
@@ -46,15 +50,119 @@ Being able to receive a JSON Web Token in postman, I now had to establish the re
 
 Join table model relationship:
 
+```ruby
+class MealIngredient < ApplicationRecord
+    belongs_to :meal
+    belongs_to :ingredient
+end
+```
+
 Meals and ingredients models relationships:
+
+```ruby
+class Ingredient < ApplicationRecord
+    has_many :meal_ingredients
+    has_many :meals, through: :meal_ingredients, dependent: :destroy
+end
+```
+
+```ruby
+class Meal < ApplicationRecord
+    belongs_to :user
+    has_many :meal_ingredients, dependent: :destroy
+    has_many :ingredients, through: :meal_ingredients
+end
+```
 
 ### Front end
 
 By this point in this course I hadn’t written in React for what felt like an eternity! But after some consultation with some old project, I quickly got back into the swing of things and began writing the log-in and sign-up pages. I built both of the pages using `<form>` to capture user data which was saved in a `useState` then sent to the API I had built with a little bit of help from Axios. For the needs of this project I would just save the JWT in local storage, but I do understand that this is not optimal from a security perspective. Here is my API call for login:
 
+```javascript
+import axios from "axios";
+
+export async function signIn(userInfo) {
+  const user = JSON.stringify({
+    user: {
+      email: `${userInfo.email}`,
+      password: `${userInfo.password}`,
+    },
+  });
+
+  try {
+    const response = await axios.post(`http://localhost:4000/login`, user, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    localStorage.setItem("jwt", response.headers.authorization);
+  } catch (error) {
+    console.log(`This is the error: ${error}`);
+  }
+}
+
+export default signIn;
+```
+
 I then went about constructing the various components of my app and the logic to give users their daily recommended calories and I also made sure to create some sort of user authorisation that restricted certain routes. For example, if a user is not signed in, they can’t view the homepage of the app. I did this by creating a component called `Routeguard` that would check if a user has a JWT in local storage. Again, the manner in which I achieved this is not the most secure, but for the purposes of the app it’s fine! Here it is:
 
+```javascript
+import { Navigate, Outlet } from "react-router-dom";
+
+export default function RouteGuard() {
+  function hasJWT() {
+    let flag = false;
+    //check user has JWT token
+    localStorage.getItem("jwt") ? (flag = true) : (flag = false);
+    return flag;
+  }
+
+  return hasJWT() ? <Outlet /> : <Navigate to={{ pathname: "/" }} />;
+}
+```
+
 For the styling, I decided to use vanilla CSS as I wanted to keep it simple and not try to learn a new framework in a couple of days. I tried to push the boat out a little bit and made some slick animations on page load which I achieved using `keyframes`. This allowed me to make a div fly in from the x-axis and other things like a fade in:
+
+```css
+.fade-in {
+  opacity: 0;
+  transition: opacity 1.5s ease-in;
+}
+
+.fade-in.active {
+  opacity: 1;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slide-in-left {
+  animation: slideInFromLeft 1s ease forwards;
+}
+
+.slide-in-right {
+  animation: slideInFromRight 1s ease forwards;
+}
+```
 
 ## Challenges
 
