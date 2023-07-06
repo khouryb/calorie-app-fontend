@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Calorie Counter
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+Project 4. Everything has been leading to this. In our final project, I have been given free reign to choose any technology stack I have learnt over the past 10 weeks and also to come up with an idea completely by myself. As I have gained 3 kilos over the course, I thought it would be fitting to create a calorie counter app so I could lose it all again hopefully.
 
-In the project directory, you can run:
+## Timeframe
 
-### `npm start`
+I was given 10 days to complete this project as a solo endeavor.
+Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React.js
+- Ruby on Rails
+- PostgreSQL
+- CSS
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Brief
 
-### `npm test`
+The cohort was tasked with creating an app with the stack of their choosing. I had to create an app with at least two models; one with full CRUD operations and the rest with add and delete methods and I had to implement user authentication.
+Planning
+I felt that I needed to practice coding using React, seeing as it is such a popular framework, so I went with that for the front end. I chose to create a REST API with Ruby on Rails. I felt like Rails would allow me to get my API up and running quickly, with PostgreSQL as my database.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+From my time in the course I learnt that new programmers tend to bite off more than they can chew in respect to the complexity of the apps they make. It is preferable to keep the app simple, making sure all features work as intended and not being overwhelmed by many features that one has to implement given a strict time frame to completion, resulting in an unfinished, rushed app. With this in mind, I decided that I would have as few models as possible and went with three as shown in the ERD here:
 
-### `npm run build`
+Then I went about writing some user stories for my app:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+As a user, I want to be able to create an account
+As a user, I want to be able to log in
+As a user, I want to calculate my BMR
+As a user, I want to be able to set my activity level
+As a user, I want to create meals, so I can track how many calories I eat in a day
+As a user, I want to add ingredients to my meals
+As a user, I want to make changes to my meals, in case I make a mistake
+As a user, I want to delete meals
+As a user, I want to view my meals
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+And some wire frames:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Build Process
 
-### `npm run eject`
+### REST API
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+For this project, I thought it made sense to make the API first, as I thought this would be the most difficult part and wanted to get it out of the way early. I chose to use Ruby on Rails for this and began making some of the user models in my ERD. Once this was done I made all the routes with their respective endpoints and the controllers for those routes, this was relatively simple to do in Rails and allowed me to swiftly move on to user authentication which would be the hardest part of the project. For this I used a gem called Devise, I then followed a guide one of my classmates had linked in Slack. This guide was easy to follow and had user authentication up in no time. I would always use Postman throughout the API build to ensure my routes worked before I moved on.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Being able to receive a JSON Web Token in postman, I now had to establish the relationships between models in the back end. As you can see in the ERD above, I need to make a one-to-many relationship between users and meals, however meals and ingredients would have to be a many-to-many relationship. I therefore actually needed to make a fourth model used as a join table between meals and ingredients, this again was quite simple to implement in Rails; I just had to add the meals and ingredients models as foreign keys to the join table and establish the relationship between them in `models`. It’s very readable in Rails! Have a look:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Join table model relationship:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Meals and ingredients models relationships:
 
-## Learn More
+### Front end
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+By this point in this course I hadn’t written in React for what felt like an eternity! But after some consultation with some old project, I quickly got back into the swing of things and began writing the log-in and sign-up pages. I built both of the pages using `<form>` to capture user data which was saved in a `useState` then sent to the API I had built with a little bit of help from Axios. For the needs of this project I would just save the JWT in local storage, but I do understand that this is not optimal from a security perspective. Here is my API call for login:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+I then went about constructing the various components of my app and the logic to give users their daily recommended calories and I also made sure to create some sort of user authorisation that restricted certain routes. For example, if a user is not signed in, they can’t view the homepage of the app. I did this by creating a component called `Routeguard` that would check if a user has a JWT in local storage. Again, the manner in which I achieved this is not the most secure, but for the purposes of the app it’s fine! Here it is:
 
-### Code Splitting
+For the styling, I decided to use vanilla CSS as I wanted to keep it simple and not try to learn a new framework in a couple of days. I tried to push the boat out a little bit and made some slick animations on page load which I achieved using `keyframes`. This allowed me to make a div fly in from the x-axis and other things like a fade in:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Challenges
 
-### Analyzing the Bundle Size
+I suppose the greatest challenge in this project was really understanding how Devise works, having followed a guide online I would just plug bits of code into my app or migrate things in Rails that I had no idea what they actually do. I did do a fair bit of googling to try to find out what certain components do, but I feel like I don’t understand how much of it works and in the end I had to move on to other features. I also found that whilst searching for solutions to roadblocks I would have in React, there would be a lot of outdated solutions and having to find out after trying to implementing it in my code and a lot of the time it would literally be a change in the name of a hook which I felt quite annoying.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Wins
 
-### Making a Progressive Web App
+I built a full-stack project! If you told me that I would be able to do this three months ago, I wouldn’t have believed you. In a more general sense, I feel like I am able to debug problems quicker and am able to understand new concepts quicker. For example, implementing route authorisation took me 30 minutes. To be more specific, I understand user authentication better and how to send data between the front and back of an application.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Takeaways
 
-### Advanced Configuration
+I am getting better at building apps, debugging and understanding new concepts. For example, before this project I felt like I didn’t really understand user authentication, but because I had done it before it clicked for me and I was able to implement it without much trouble.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Bugs
 
-### Deployment
+None that I am aware of, but I am sure that they are there.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Future Improvements
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ß
+I would like to use a third party API to grab the nutritional data for more common foodstuffs. Implementing this would save the user time in inputting their own data. I would also like to make the app more secure; I believe storing JWTs in cookies instead of local storage is much more secure.
