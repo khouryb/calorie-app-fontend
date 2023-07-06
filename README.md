@@ -180,7 +180,7 @@ I built a full-stack project! If you told me that I would be able to do this thr
 
 I am getting better at building apps, debugging and understanding new concepts. For example, before this project I felt like I didn’t really understand user authentication, but because I had done it before it clicked for me and I was able to implement it without much trouble.
 
-## Bugs
+## Bugs
 
 None that I am aware of, but I am sure that they are there.
 
