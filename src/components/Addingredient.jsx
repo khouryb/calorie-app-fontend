@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import Deleteingredient from "./Deleteingredient"
 
 export default function Addingredient() {
+    const [ingredients, setIngredients] = useState([])
+
     const [formData, setFormData] = useState({
         name: "",
         protein: undefined,
@@ -10,6 +12,18 @@ export default function Addingredient() {
         fat: undefined,
         calories: undefined
     })
+
+    const fetchIngredients = async () => {
+        try {
+            const response = await axios.get('http://localhost:4000/ingredients')
+            setIngredients(response.data)
+            console.log(response.data)
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => fetchIngredients,[])
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value})
@@ -30,6 +44,7 @@ export default function Addingredient() {
             headers: {
                 "Content-Type": "application/json"
             }});
+            console.log(response)
         } catch(error) {
             console.log(`This is the error: ${error}`);
         }
@@ -44,6 +59,7 @@ export default function Addingredient() {
                     <input
                         type="text"
                         name="name"
+                        autocomplete="off"
                         value={formData.name}
                         onChange={handleChange}
                     />
@@ -53,6 +69,7 @@ export default function Addingredient() {
                     <input
                         type="text"
                         name="protein"
+                        autocomplete="off"
                         value={formData.protein}
                         onChange={handleChange}
                     />
@@ -62,6 +79,7 @@ export default function Addingredient() {
                     <input
                         type="text"
                         name="carbs"
+                        autocomplete="off"
                         value={formData.carbs}
                         onChange={handleChange}
                     />
@@ -71,6 +89,7 @@ export default function Addingredient() {
                     <input
                         type="text"
                         name="fat"
+                        autocomplete="off"
                         value={formData.fat}
                         onChange={handleChange}
                     />
@@ -88,6 +107,14 @@ export default function Addingredient() {
                     <button>Add Ingredient</button>
                 </div>
             </form>
+            <div>
+                <h3>Stored Ingredients</h3>
+                {ingredients.map(ingredient => (
+                    <div key={ingredient.id}>
+                        <p>{`Name: ${ingredient.name} Carbs: ${ingredient.carbs} Protein: ${ingredient.protein} Fat: ${ingredient.fat}`}</p>
+                    </div>
+                ))}
+            </div>
             <Deleteingredient />
         </>
     )

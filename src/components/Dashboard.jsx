@@ -10,6 +10,7 @@ export default function Dashboard() {
                     <li><Logoutbutton /></li>
                     <li><Deleteuser /></li>
                     <li><Link to="/ingredients">Add Ingredient</Link></li>
+                    <li><Link to="/meals">Meals</Link></li>
                 </ul>
             </nav>
             <h1>Dashboard</h1>

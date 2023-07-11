@@ -13,7 +13,6 @@ export default function Deleteingredient() {
         setIngredients(response.data);
         console.log(response)
       } catch (error) {
-        // console.log(mealData)
         console.log('Error fetching ingredients:', error);
       }
     };
