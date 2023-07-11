@@ -1,24 +1,26 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 
+
 export default function Deleteingredient() {
     const [ingredients, setIngredients] = useState([])
 
 
+    // Fetch ingredients from the backend API
+    const fetchIngredients = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/ingredients');
+        setIngredients(response.data);
+        console.log(response)
+      } catch (error) {
+        // console.log(mealData)
+        console.log('Error fetching ingredients:', error);
+      }
+    };
+
     useEffect(() => {
-        // Fetch ingredients from the backend API
-        const fetchIngredients = async () => {
-          try {
-            const response = await axios.get('http://localhost:4000/ingredients');
-            setIngredients(response.data);
-            console.log(response)
-          } catch (error) {
-            // console.log(mealData)
-            console.log('Error fetching ingredients:', error);
-          }
-        };
-    
-        fetchIngredients();
+
+      fetchIngredients();
         
     }, []);
 
@@ -52,7 +54,7 @@ export default function Deleteingredient() {
                 const response = await axios.delete(`http://localhost:4000/ingredients/${id}`);
                 console.log('Deleted', response.data);
             })
-
+            fetchIngredients()
         // Perform any necessary actions upon successful creation
         } catch (error) {
             console.log('Error deleting meal:', error);
