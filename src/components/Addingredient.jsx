@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import Deleteingredient from "./Deleteingredient"
+import { Link } from "react-router-dom"
 
 export default function Addingredient() {
     const [ingredients, setIngredients] = useState([])
@@ -30,7 +31,6 @@ export default function Addingredient() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         const ingredient = JSON.stringify({
             name: `${formData.name}`,
             protein: `${formData.protein}`,
@@ -52,6 +52,9 @@ export default function Addingredient() {
 
     return(
         <>
+            <ul>
+                <li><Link to='/dashboard'>Dashboard</Link></li>
+            </ul>
             <h1>Add an Ingredient</h1>
             <form onSubmit={handleSubmit}>
                 <div>

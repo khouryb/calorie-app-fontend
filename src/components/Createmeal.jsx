@@ -68,7 +68,6 @@ export default function Createmeal() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwt')}`;
         let JSONmealData = JSON.stringify(mealData, (key, value) => {
             if (key === "ingredient_ids" && Array.isArray(value)) {
